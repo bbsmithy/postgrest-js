@@ -88,6 +88,13 @@ export abstract class PostgrestBuilder<T> implements PromiseLike<PostgrestRespon
     return this
   }
 
+  escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
+  }
+  replaceAll(str: string, match: string, replacement: string) {
+    return str.replace(new RegExp(this.escapeRegExp(match), 'g'), () => replacement)
+  }
+
   useEvervault() {
     const isUsingEvervaultRelay =
       this.url.href.includes('relay') && this.url.href.includes('evervault')
@@ -95,11 +102,10 @@ export abstract class PostgrestBuilder<T> implements PromiseLike<PostgrestRespon
       return this
     } else {
       const oldURL = this.url
-      const regex = /./g
-      let replacementUrl = oldURL.href.replace(regex, '-')
-      replacementUrl = `${replacementUrl}.relay.evervault.com/${oldURL.search}`
+      // @ts-ignore
+      let replacementUrl = this.replaceAll(oldURL.host, '.', '-')
+      replacementUrl = `${oldURL.protocol}//${replacementUrl}.relay.evervault.com${oldURL.pathname}${oldURL.search}`
       this.url = new URL(replacementUrl)
-      console.log('replacementUrl: ', replacementUrl)
       return this
     }
   }

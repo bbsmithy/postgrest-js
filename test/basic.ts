@@ -1,6 +1,6 @@
 import { PostgrestClient } from '../src/index'
 
-const REST_URL = 'http://localhost:3000'
+const REST_URL = 'https://uclrernqxhueznbncwef.supabase.co'
 const postgrest = new PostgrestClient(REST_URL)
 
 test('basic select table', async () => {
@@ -9,8 +9,10 @@ test('basic select table', async () => {
 })
 
 test('use evervault', async () => {
-  const req = postgrest.from('users').select().eq('id', 1).useEvervault()
-  expect(req.getURL().href).toContain('evervault')
+  const req = postgrest.from('users').select().eq('id', 1).neq('test', 'test').useEvervault()
+  expect(req.getURL().href).toBe(
+    'https://uclrernqxhueznbncwef-supabase-co.relay.evervault.com/users?select=*&id=eq.1&test=neq.test'
+  )
 })
 
 test('rpc', async () => {
