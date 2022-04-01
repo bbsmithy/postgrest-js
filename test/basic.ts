@@ -8,6 +8,11 @@ test('basic select table', async () => {
   expect(res).toMatchSnapshot()
 })
 
+test('use evervault', async () => {
+  const req = postgrest.from('users').select().eq('id', 1).useEvervault()
+  expect(req.getURL().href).toContain('evervault')
+})
+
 test('rpc', async () => {
   const res = await postgrest.rpc('get_status', { name_param: 'supabot' })
   expect(res).toMatchSnapshot()

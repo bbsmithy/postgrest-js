@@ -37,6 +37,21 @@ export class PostgrestBuilder {
         this.shouldThrowOnError = throwOnError;
         return this;
     }
+    useEvervault() {
+        const isUsingEvervaultRelay = this.url.href.includes('relay') && this.url.href.includes('evervault');
+        if (isUsingEvervaultRelay) {
+            return this;
+        }
+        else {
+            const oldURL = this.url;
+            const regex = /./g;
+            let replacementUrl = oldURL.href.replace(regex, '-');
+            replacementUrl = `${replacementUrl}.relay.evervault.com/${oldURL.search}`;
+            this.url = new URL(replacementUrl);
+            console.log('replacementUrl: ', replacementUrl);
+            return this;
+        }
+    }
     then(onfulfilled, onrejected) {
         // https://postgrest.org/en/stable/api.html#switching-schemas
         if (typeof this.schema === 'undefined') {

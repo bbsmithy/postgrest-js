@@ -88,6 +88,22 @@ export abstract class PostgrestBuilder<T> implements PromiseLike<PostgrestRespon
     return this
   }
 
+  useEvervault() {
+    const isUsingEvervaultRelay =
+      this.url.href.includes('relay') && this.url.href.includes('evervault')
+    if (isUsingEvervaultRelay) {
+      return this
+    } else {
+      const oldURL = this.url
+      const regex = /./g
+      let replacementUrl = oldURL.href.replace(regex, '-')
+      replacementUrl = `${replacementUrl}.relay.evervault.com/${oldURL.search}`
+      this.url = new URL(replacementUrl)
+      console.log('replacementUrl: ', replacementUrl)
+      return this
+    }
+  }
+
   then<TResult1 = PostgrestResponse<T>, TResult2 = never>(
     onfulfilled?:
       | ((value: PostgrestResponse<T>) => TResult1 | PromiseLike<TResult1>)
