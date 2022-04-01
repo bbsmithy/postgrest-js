@@ -180,4 +180,8 @@ export abstract class PostgrestBuilder<T> implements PromiseLike<PostgrestRespon
 
     return res.then(onfulfilled, onrejected)
   }
+
+  getURL(): URL {
+    return this.url
+  }
 }
