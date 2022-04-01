@@ -43,11 +43,11 @@ class PostgrestBuilder {
         this.shouldThrowOnError = throwOnError;
         return this;
     }
-    escapeRegExp(string) {
+    _escapeRegExp(string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
     }
-    replaceAll(str, match, replacement) {
-        return str.replace(new RegExp(this.escapeRegExp(match), 'g'), () => replacement);
+    _replaceAll(str, match, replacement) {
+        return str.replace(new RegExp(this._escapeRegExp(match), 'g'), () => replacement);
     }
     useEvervault() {
         const isUsingEvervaultRelay = this.url.href.includes('relay') && this.url.href.includes('evervault');
@@ -57,7 +57,7 @@ class PostgrestBuilder {
         else {
             const oldURL = this.url;
             // @ts-ignore
-            let replacementUrl = this.replaceAll(oldURL.host, '.', '-');
+            let replacementUrl = this._replaceAll(oldURL.host, '.', '-');
             replacementUrl = `${oldURL.protocol}//${replacementUrl}.relay.evervault.com${oldURL.pathname}${oldURL.search}`;
             this.url = new URL(replacementUrl);
             return this;

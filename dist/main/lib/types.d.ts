@@ -58,8 +58,8 @@ export declare abstract class PostgrestBuilder<T> implements PromiseLike<Postgre
      * {@link https://github.com/supabase/supabase-js/issues/92}
      */
     throwOnError(throwOnError?: boolean): this;
-    escapeRegExp(string: string): string;
-    replaceAll(str: string, match: string, replacement: string): string;
+    private _escapeRegExp;
+    private _replaceAll;
     useEvervault(): this;
     then<TResult1 = PostgrestResponse<T>, TResult2 = never>(onfulfilled?: ((value: PostgrestResponse<T>) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): PromiseLike<TResult1 | TResult2>;
     getURL(): URL;
