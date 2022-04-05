@@ -1,5 +1,24 @@
 # `postgrest-js`
 
+Fork with small change for switching out supabase request URL with and evervault relay
+Use in https://github.com/bbsmithy/supabase-js
+
+```
+useEvervault() {
+  const isUsingEvervaultRelay =
+    this.url.href.includes('relay') && this.url.href.includes('evervault')
+  if (isUsingEvervaultRelay) {
+    return this
+  } else {
+    const oldURL = this.url
+    let replacementUrl = this._replaceAll(oldURL.host, '.', '-')
+    replacementUrl = `${oldURL.protocol}//${replacementUrl}.relay.evervault.com${oldURL.pathname}${oldURL.search}`
+    this.url = new URL(replacementUrl)
+    return this
+  }
+}
+```
+
 [![Build](https://github.com/supabase/postgrest-js/workflows/CI/badge.svg)](https://github.com/supabase/postgrest-js/actions?query=branch%3Amaster)
 [![Package](https://img.shields.io/npm/v/@supabase/postgrest-js)](https://www.npmjs.com/package/@supabase/postgrest-js)
 [![License: MIT](https://img.shields.io/npm/l/@supabase/postgrest-js)](#license)
