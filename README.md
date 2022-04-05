@@ -1,7 +1,7 @@
 # `postgrest-js`
 
-Fork with small change for switching out supabase request URL with and evervault relay
-Use in https://github.com/bbsmithy/supabase-js
+Fork with small change for switching out supabase request URL with and evervault relay.
+For use in https://github.com/bbsmithy/supabase-js
 
 ```
 useEvervault() {
